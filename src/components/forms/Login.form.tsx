@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
       </FormControl>
       <ButtonPrimary mb={3}>Masuk</ButtonPrimary>
       <LoginSocialGoogle
-        client_id="4178028362-lci2afd48a0nhh5t2s2jn6lfh15jubjj.apps.googleusercontent.com"
+        client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         onResolve={({ data }: any) => onSuccessLogin(data)}
         onReject={(err: any) => alert(err)}
       >

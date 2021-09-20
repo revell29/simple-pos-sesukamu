@@ -1,7 +1,14 @@
 import React from "react";
 import { Button, ButtonProps } from "@chakra-ui/react";
 
-const ButtonIcon: React.FC<ButtonProps> = ({ children, ...rest }) => {
+interface IButtonIcon extends ButtonProps {
+  children: React.ReactNode;
+}
+
+const ButtonIcon: React.FC<IButtonIcon> = ({
+  children,
+  ...rest
+}: IButtonIcon) => {
   return (
     <Button {...rest} w="full" size="md" variant="solid" py={6}>
       {children}

@@ -1,33 +1,44 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
-import ApiRequest from "api";
-import { useAppDispatch } from "hooks";
+import ApiRequest from "service/api";
+import { useAppDispatch, useAppSelector } from "hooks";
 import { saveUserInfo } from "redux/auth/authSlice";
 import { Navbar } from "components";
 
-const AuthContainer: React.FC = ({ children }) => {
+interface IAuthContainerProps {
+  children: React.ReactNode;
+}
+
+const AuthContainer: React.FC<IAuthContainerProps> = ({
+  children,
+}: IAuthContainerProps) => {
   const dispatch = useAppDispatch();
+  const authSlice = useAppSelector((state) => state.authSlice);
+  const SESSION_TOKEN = sessionStorage.getItem("token");
+
+  const getInfo = React.useCallback(async () => {
+    await ApiRequest.getUserInfo(SESSION_TOKEN)
+      .then((res) => {
+        dispatch(saveUserInfo(res));
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          sessionStorage.removeItem("token");
+          window.location.href = "/";
+        }
+      });
+  }, [SESSION_TOKEN, dispatch]);
 
   React.useEffect(() => {
-    const getInfo = async () => {
-      await ApiRequest.getUserInfo()
-        .then((res) => {
-          dispatch(saveUserInfo(res));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
-    getInfo();
-  }, [dispatch]);
+    if (!authSlice.name) {
+      getInfo();
+    }
+  }, [getInfo, authSlice.name]);
 
   return (
     <>
       <Navbar />
-      <Box mx="auto" px="3.5rem" mt="2rem">
-        {children}
-      </Box>
+      <Box mt="1rem">{children}</Box>
     </>
   );
 };
