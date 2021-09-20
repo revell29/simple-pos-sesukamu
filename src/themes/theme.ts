@@ -16,6 +16,17 @@ export default extendTheme({
         letterSpacing: "tighter",
       },
     },
+    Button: {
+      variants: {
+        primary: {
+          bg: "primary.50",
+          color: "white",
+          _hover: {
+            boxShadow: "md",
+          },
+        },
+      },
+    },
     Link: {
       variants: {
         link: {
@@ -60,10 +71,10 @@ export default extendTheme({
         textRendering: "optimizeLegibility",
       },
       "*::placeholder": {
-        color: "whiteAlpha.400",
+        color: "gray.200",
       },
       "*, *::before, &::after": {
-        borderColor: "whiteAlpha.300",
+        // borderColor: "whiteAlpha.300",
         wordWrap: "break-word",
       },
 

@@ -14,12 +14,7 @@ const Login: React.FC = () => {
   }, [token, history]);
 
   React.useEffect(() => {
-    let mounted = true;
-
     checkToken();
-    return () => {
-      mounted = false;
-    };
   }, [checkToken]);
 
   return (

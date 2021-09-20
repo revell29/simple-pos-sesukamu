@@ -1,11 +1,22 @@
 import React from "react";
 import { Box, BoxProps } from "@chakra-ui/react";
 
-const Card: React.FC<BoxProps> = (props) => {
+interface ICardProps extends BoxProps {
+  children: React.ReactNode;
+}
+
+const Card: React.FC<ICardProps> = (props: ICardProps) => {
   const { children, ...rest } = props;
 
   return (
-    <Box px={8} py={10} rounded="15px" bg="white" {...rest} w="full">
+    <Box
+      px={{ base: 5, sm: 5, lg: 8 }}
+      py={{ base: 5, sm: 5, lg: 10 }}
+      rounded="8px"
+      bg="white"
+      {...rest}
+      w="full"
+    >
       {children}
     </Box>
   );

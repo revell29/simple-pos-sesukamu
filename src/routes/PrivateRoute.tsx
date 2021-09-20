@@ -1,3 +1,4 @@
+import { AuthContainer } from "components";
 import * as React from "react";
 import { Switch, withRouter, Route, Redirect } from "react-router-dom";
 import allRoutes from ".";
@@ -13,9 +14,11 @@ const PrivateRoute = withRouter(() => {
   ));
 
   return (
-    <Switch>
-      {sessionStorage.getItem("token") ? AuthMenu : <Redirect to="/" />}
-    </Switch>
+    <AuthContainer>
+      <Switch>
+        {sessionStorage.getItem("token") ? AuthMenu : <Redirect to="/" />}
+      </Switch>
+    </AuthContainer>
   );
 });
 

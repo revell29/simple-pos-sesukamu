@@ -1,13 +1,11 @@
 import axios from "axios";
-import { AuthSlice } from "redux/auth/authSlice";
-
-const SESSION_TOKEN = sessionStorage.getItem("token");
+import { AuthSlice } from "types/auth.type";
 
 export const ApiRequest = {
-  getUserInfo: async (): Promise<AuthSlice> => {
+  getUserInfo: async (token: string | null): Promise<AuthSlice> => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${SESSION_TOKEN}`
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`
       );
       return Promise.resolve(response.data);
     } catch (error) {
