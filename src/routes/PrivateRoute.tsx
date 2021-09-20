@@ -1,6 +1,7 @@
 import { AuthContainer } from "components";
 import * as React from "react";
-import { Switch, withRouter, Route, Redirect } from "react-router-dom";
+import { Switch, withRouter, Route } from "react-router-dom";
+// import { supabase } from "service/supabase/connection";
 import allRoutes from ".";
 
 const PrivateRoute = withRouter(() => {
@@ -15,9 +16,7 @@ const PrivateRoute = withRouter(() => {
 
   return (
     <AuthContainer>
-      <Switch>
-        {sessionStorage.getItem("token") ? AuthMenu : <Redirect to="/" />}
-      </Switch>
+      <Switch>{AuthMenu}</Switch>
     </AuthContainer>
   );
 });
