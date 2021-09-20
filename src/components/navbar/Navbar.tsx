@@ -1,7 +1,15 @@
 import React from "react";
-import { Flex, Heading, Text, Link, Spacer, Image } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Text,
+  Link,
+  Spacer,
+  Image,
+  Button,
+} from "@chakra-ui/react";
 import { useAppSelector } from "hooks";
-import { Link as ReactLink } from "react-router-dom";
+import { supabase } from "service/supabase/connection";
 
 const Navbar: React.FC = () => {
   const authInfo = useAppSelector((state) => state.authSlice);
@@ -22,9 +30,15 @@ const Navbar: React.FC = () => {
       </Flex>
       <Spacer />
       <Flex alignItems="center" fontSize="15px">
-        <Link to="/" as={ReactLink}>
-          <Text>Penjualan</Text>
-        </Link>
+        <Button
+          onClick={() => {
+            supabase.auth.signOut();
+            window.location.href = "/";
+          }}
+          size="sm"
+        >
+          <Text>Sign Out</Text>
+        </Button>
         <Link to="/" ml={8}>
           <Image src={authInfo.picture} boxSize="28px" rounded="full" />
         </Link>

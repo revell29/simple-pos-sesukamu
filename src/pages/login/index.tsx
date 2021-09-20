@@ -2,16 +2,17 @@ import React from "react";
 import { LoginContainer, LoginForm } from "components";
 import { Box, Heading } from "@chakra-ui/react";
 import { useHistory } from "react-router";
+import { supabase } from "service/supabase/connection";
 
 const Login: React.FC = () => {
   const history = useHistory();
-  const token = sessionStorage.getItem("token");
 
   const checkToken = React.useCallback(() => {
-    if (token) {
+    const session = supabase.auth.session();
+    if (session) {
       history.push("/sales");
     }
-  }, [token, history]);
+  }, [history]);
 
   React.useEffect(() => {
     checkToken();

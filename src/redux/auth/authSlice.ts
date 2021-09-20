@@ -16,7 +16,7 @@ export const authSlice = createSlice({
   name: "auth-slice",
   initialState,
   reducers: {
-    saveUserInfo: (state, action: PayloadAction<AuthSlice>) => {
+    saveUserInfo: (state, action: PayloadAction<AuthSlice | any>) => {
       state.id = action.payload.id;
       state.email = action.payload.email;
       state.verified_email = action.payload.verified_email;

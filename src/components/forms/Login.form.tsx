@@ -3,15 +3,18 @@ import { FormControl, FormLabel, Input, Image } from "@chakra-ui/react";
 import { Card } from "components";
 import { ButtonPrimary, ButtonIcon } from "components";
 import GoogleIcon from "assets/icons/ic_google.svg";
-import { LoginSocialGoogle } from "reactjs-social-login";
-import { useHistory } from "react-router-dom";
+import { supabase } from "service/supabase/connection";
 
 const LoginForm: React.FC = () => {
-  const history = useHistory();
-
-  const onSuccessLogin = (res: any) => {
-    sessionStorage.setItem("token", res.data.access_token);
-    history.push("/sales");
+  const handleLogin = async () => {
+    await supabase.auth.signIn(
+      {
+        provider: "google",
+      },
+      {
+        redirectTo: "http://localhost:3000/sales",
+      }
+    );
   };
 
   return (
@@ -25,19 +28,20 @@ const LoginForm: React.FC = () => {
         <Input variant="filled" type="password" />
       </FormControl>
       <ButtonPrimary mb={3}>Masuk</ButtonPrimary>
-      <LoginSocialGoogle
+      {/* <LoginSocialGoogle
         client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         onResolve={({ data }: any) => onSuccessLogin(data)}
         onReject={(err: any) => alert(err)}
+      > */}
+      <ButtonIcon
+        bg="gray.700"
+        color="white"
+        onClick={handleLogin}
+        leftIcon={<Image src={GoogleIcon} boxSize="20px" />}
       >
-        <ButtonIcon
-          bg="gray.700"
-          color="white"
-          leftIcon={<Image src={GoogleIcon} boxSize="20px" />}
-        >
-          Masuk / Daftar
-        </ButtonIcon>
-      </LoginSocialGoogle>
+        Masuk / Daftar
+      </ButtonIcon>
+      {/* </LoginSocialGoogle> */}
     </Card>
   );
 };
