@@ -8,6 +8,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@reduxjs/toolkit": "^1.6.1",
+    "@supabase/gotrue-js": "^1.18.0",
     "@supabase/supabase-js": "^1.22.6",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
