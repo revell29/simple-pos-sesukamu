@@ -12,7 +12,10 @@ const LoginForm: React.FC = () => {
         provider: "google",
       },
       {
-        redirectTo: "http://localhost:3000/sales",
+        redirectTo:
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000/sales"
+            : "https://sesukamu-pos.vercel.app/sales",
       }
     );
   };
