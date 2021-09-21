@@ -1,12 +1,21 @@
 import React from "react";
-import { Button, Box, Flex, Text, FormControl, Input } from "@chakra-ui/react";
+import {
+  Button,
+  Box,
+  Flex,
+  Text,
+  FormControl,
+  Input,
+  FormLabel,
+} from "@chakra-ui/react";
 import { useAppSelector, useAppDispatch } from "hooks";
 import { ItemCartType } from "types/cart.type";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import { currencyFormat, generateNumber } from "utils";
-import { addItems } from "redux/cart/cartSlice";
+import { addItems, deleteItems } from "redux/cart/cartSlice";
 import { Card } from "components";
+import { CloseIcon } from "@chakra-ui/icons";
 
 const TableItem: React.FC = () => {
   const initialState = {
@@ -22,6 +31,7 @@ const TableItem: React.FC = () => {
 
   const addItem = () => {
     if (items.item_name !== "") {
+      setOpen(false);
       dispatch(addItems(items));
       setItems(initialState);
     }
@@ -47,22 +57,28 @@ const TableItem: React.FC = () => {
                     x{item.qty}
                   </Text>
                 </Box>
-                <Text fontSize="13px" color="gray.600">
-                  {currencyFormat(item.amount)}
-                </Text>
+                <Flex alignItems="center">
+                  <Text fontSize="13px" color="gray.600">
+                    {currencyFormat(item.amount)}
+                    <Button
+                      ml={4}
+                      size="xs"
+                      bg="red.50"
+                      onClick={() => dispatch(deleteItems(`${item.item_id}`))}
+                    >
+                      <CloseIcon color="red.500" />
+                    </Button>
+                  </Text>
+                </Flex>
               </Flex>
             </Card>
           ))}
       </Box>
-      <BottomSheet
-        open={open}
-        onDismiss={() => setOpen(false)}
-        // snapPoints={({ minHeight, maxHeight }) => [minHeight, maxHeight]}
-      >
+      <BottomSheet open={open} onDismiss={() => setOpen(false)}>
         <Box p={4}>
           <FormControl mb={4}>
+            <FormLabel>Nama Item</FormLabel>
             <Input
-              placeholder="Nama Item"
               onChange={(e) =>
                 setItems({ ...items, item_name: e.target.value })
               }
@@ -70,9 +86,9 @@ const TableItem: React.FC = () => {
             />
           </FormControl>
           <FormControl mb={4}>
+            <FormLabel>Qty</FormLabel>
             <Input
               placeholder="Quantity"
-              type="number"
               onChange={(e) =>
                 setItems({ ...items, qty: Number(e.target.value) })
               }
@@ -80,9 +96,9 @@ const TableItem: React.FC = () => {
             />
           </FormControl>
           <FormControl mb={4}>
+            <FormLabel>Total</FormLabel>
             <Input
               placeholder="Total"
-              type="number"
               onChange={(e) =>
                 setItems({ ...items, amount: Number(e.target.value) })
               }

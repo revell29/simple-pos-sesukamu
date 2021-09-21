@@ -7,5 +7,5 @@ export interface ITransaction {
   transaction_date?: any;
   transaction_id?: number;
   trx_number: string;
-  items: Array<ItemCartType>;
+  transaction_details: Array<ItemCartType>;
 }

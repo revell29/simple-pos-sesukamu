@@ -1,0 +1,21 @@
+@page {
+  margin: 0;
+}
+
+@media print {
+  .print {
+    width: 264px;
+    font-family: Arial, monospace;
+    margin: auto;
+    font-size: 0.6rem;
+    text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+  }
+
+  .hidden-print,
+  .hidden-print * {
+    display: none !important;
+  }
+}

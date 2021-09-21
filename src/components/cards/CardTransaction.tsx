@@ -1,8 +1,12 @@
 import React from "react";
 import { Card } from "components";
-import { Avatar, Flex, Heading, Box, Text } from "@chakra-ui/react";
+import { Avatar, Flex, Heading, Box, Text, Button } from "@chakra-ui/react";
 import { ITransaction } from "types/transaction.type";
 import { currencyFormat, formatDate } from "utils";
+import ReactToPrint from "react-to-print";
+import ComponentToPrint from "components/print/ComponentToPrint";
+import { useAppDispatch } from "hooks";
+import { clearItems, printTransaction } from "redux/cart/cartSlice";
 
 interface ICardTransactionProps {
   transaction: ITransaction;
@@ -12,6 +16,28 @@ const CardTransaction: React.FC<ICardTransactionProps> = (
   props: ICardTransactionProps
 ) => {
   const { transaction } = props;
+  const componentRef = React.useRef(null);
+  const dispatch = useAppDispatch();
+
+  const reactToPrintContent = React.useCallback(() => {
+    return componentRef.current;
+  }, [componentRef.current]);
+
+  const printTrigger = React.useCallback(() => {
+    return (
+      <Button w="full" mt={4}>
+        Print
+      </Button>
+    );
+  }, []);
+
+  const handleOnBeforeGetContent = React.useCallback(() => {
+    dispatch(printTransaction(transaction));
+  }, [dispatch]);
+
+  const handleAfterPrint = React.useCallback(() => {
+    dispatch(clearItems());
+  }, [dispatch]);
   return (
     <Card
       _hover={{
@@ -33,11 +59,11 @@ const CardTransaction: React.FC<ICardTransactionProps> = (
             />
           </Box>
           <Box>
-            <Heading fontSize="17px">{transaction.trx_number}</Heading>
-            <Text fontSize="14px" color="gray.500">
+            <Heading fontSize="13px">{transaction.trx_number}</Heading>
+            <Text fontSize="13px" color="gray.500">
               {formatDate(transaction.transaction_date)}
             </Text>
-            <Text color="gray.500" mt={1}>
+            <Text color="gray.500" fontSize="13px" mt={1}>
               {transaction.customer_name}
             </Text>
           </Box>
@@ -53,6 +79,15 @@ const CardTransaction: React.FC<ICardTransactionProps> = (
           {currencyFormat(transaction.grand_total)}
         </Heading>
       </Flex>
+      <ReactToPrint
+        trigger={printTrigger}
+        content={reactToPrintContent}
+        onBeforeGetContent={handleOnBeforeGetContent}
+        onAfterPrint={handleAfterPrint}
+      />
+      <Box display="none">
+        <ComponentToPrint ref={componentRef} />
+      </Box>
     </Card>
   );
 };

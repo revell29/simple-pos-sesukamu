@@ -8,6 +8,7 @@ export interface ItemCartType {
 export interface CartSliceType {
   customer_name: string;
   transaction_date: any;
+  trx_number: string;
   grand_total: number;
   is_paid: boolean;
   items: ItemCartType[];

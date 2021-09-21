@@ -10,3 +10,4 @@ export { default as CardTransaction } from "./cards/CardTransaction";
 export { default as CardSkelton } from "./cards/CardSkelton";
 export { default as TableItem } from "./table/TableItems";
 export { default as BottomTabs } from "./tabs/BottomTabs";
+export { default as PrintStruct } from "./print/PrintStruct";

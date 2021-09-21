@@ -11,7 +11,7 @@ import { BottomTabs, Card, ScreenContainer, TableItem } from "components";
 import { Link as ReactLink, RouteComponentProps } from "react-router-dom";
 import React from "react";
 import transaction from "service/supabase/transaction";
-import { generateNumber, getGrandTotal } from "utils";
+import { dateCode, getGrandTotal, timeTransaction } from "utils";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { useHistory } from "react-router-dom";
 import { clearItems } from "redux/cart/cartSlice";
@@ -28,11 +28,11 @@ const TransactionPage: React.FC<RouteComponentProps> = () => {
     try {
       setLoading(true);
       const payload = {
-        trx_number: `INV-${generateNumber()}`,
+        trx_number: `SESUKAMU/${dateCode()}/${timeTransaction()}`,
         customer_name: customer,
         grand_total: getGrandTotal(cartSlice.items),
         is_paid: true,
-        items: cartSlice.items.map((item) => {
+        transaction_details: cartSlice.items.map((item) => {
           return {
             item_name: item.item_name,
             qty: item.qty,

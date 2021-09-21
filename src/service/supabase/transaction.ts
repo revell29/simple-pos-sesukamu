@@ -8,7 +8,11 @@ const transaction = {
         data: listTransaction,
         error,
         status,
-      } = await supabase.from("transaction").select("*");
+      } = await supabase
+        .from("transaction")
+        .select(
+          "customer_name, grand_total, trx_number, transaction_date, transaction_details(item_name, qty, amount)"
+        );
 
       if (error && status !== 406) {
         throw error;
@@ -37,13 +41,17 @@ const transaction = {
       }
 
       if (transaction) {
-        payload.items = payload.items.map((item) => {
-          return {
-            ...item,
-            transaction_id: transaction[0].transaction_id,
-          };
-        });
-        await supabase.from("transaction_details").insert(payload.items);
+        payload.transaction_details = payload.transaction_details.map(
+          (item) => {
+            return {
+              ...item,
+              transaction_id: transaction[0].transaction_id,
+            };
+          }
+        );
+        await supabase
+          .from("transaction_details")
+          .insert(payload.transaction_details);
       }
 
       return transaction;
