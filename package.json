@@ -26,6 +26,7 @@
     "react-scripts": "4.0.3",
     "react-social-login": "^3.4.14",
     "react-spring-bottom-sheet": "^3.4.0",
+    "react-to-print": "^2.13.0",
     "reactjs-social-login": "^1.4.2",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
