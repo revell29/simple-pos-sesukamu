@@ -32,8 +32,13 @@ const CardTransaction: React.FC<ICardTransactionProps> = (
   }, []);
 
   const handleOnBeforeGetContent = React.useCallback(() => {
-    dispatch(printTransaction(transaction));
-  }, [dispatch]);
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        dispatch(printTransaction(transaction));
+        resolve();
+      }, 2000);
+    });
+  }, []);
 
   const handleAfterPrint = React.useCallback(() => {
     dispatch(clearItems());

@@ -14,7 +14,6 @@ const Divider = () => <Box h="0.4px" bg="gray.600" w="full" my={2} />;
 
 const PrintStruct: React.FC = () => {
   const cartSlice = useAppSelector((state) => state.cartSlice);
-  const autSlice = useAppSelector((state) => state.authSlice);
 
   return (
     <Box width="264px" m="auto" className="print" px="15px">
@@ -27,15 +26,14 @@ const PrintStruct: React.FC = () => {
           mb={3}
           display="inline-block"
         />
-        <Text>Sesukamu T-Shirt Printing</Text>
-        <Text>
-          Jl Bulak Jawa RT 003 RW 003 Kel. Jatisari, Kec. Jatiasih, Kota Bekasi
-        </Text>
+        <Text>Jl Bulak Jawa RT 003 RW 003</Text>
+        <Text>Kel. Jatisari, Kec. Jatiasih</Text>
+        <Text>Kota Bekasi</Text>
         <Text>+62 858-1716-6676</Text>
       </Box>
       <Box mt={4}>
         <Text>No: {cartSlice.trx_number}</Text>
-        <Text>Kasir: {autSlice.name}</Text>
+        <Text>Kasir: Syapirin</Text>
         <Text>Tanggal: {formatDate(cartSlice.transaction_date)}</Text>
         <Text>Customer: {cartSlice.customer_name}</Text>
       </Box>
@@ -59,14 +57,20 @@ const PrintStruct: React.FC = () => {
       <Box mt={2}>
         <Flex alignItems="center" justifyContent="space-between" mb="2px">
           <Text>Subtotal</Text>
-          <Text>{currencyFormat(getGrandTotal(cartSlice.items))}</Text>
+          <Text>
+            {currencyFormat(
+              getGrandTotal(cartSlice.items) * getTotalItems(cartSlice.items)
+            )}
+          </Text>
         </Flex>
         <Flex alignItems="center" justifyContent="space-between" mb="2px">
           <Text fontWeight="bold">
             TOTAL ({getTotalItems(cartSlice.items)} Barang)
           </Text>
           <Text fontWeight="bold">
-            {currencyFormat(getGrandTotal(cartSlice.items))}
+            {currencyFormat(
+              getGrandTotal(cartSlice.items) * getTotalItems(cartSlice.items)
+            )}
           </Text>
         </Flex>
       </Box>
@@ -94,7 +98,9 @@ const PrintStruct: React.FC = () => {
           </svg>
           <Text ml={1}>@kaos_sesukamu</Text>
         </Flex>
-        <Text mt="2px">Terimakasih telah berbelanja ditoko kami.</Text>
+        <Text mt="2px" textAlign="center">
+          Terimakasih telah berbelanja ditoko kami.
+        </Text>
       </Box>
     </Box>
   );
